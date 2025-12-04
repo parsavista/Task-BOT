@@ -1,0 +1,26 @@
+{
+  "miniapp": {
+    "version": "1",
+    "name": "Discord Task Manager",
+    "iconUrl": "https://usdozf7pplhxfvrl.public.blob.vercel-storage.com/thumbnail_dd397b07-c23b-47cc-b9be-8c561ae46b30-hd3Z4H3q1DwphLN4WYxLq2y9MLCQbG",
+    "homeUrl": "https://planning-voyage-395.app.ohara.ai",
+    "imageUrl": "https://usdozf7pplhxfvrl.public.blob.vercel-storage.com/thumbnail_dd397b07-c23b-47cc-b9be-8c561ae46b30-hd3Z4H3q1DwphLN4WYxLq2y9MLCQbG",
+    "buttonTitle": "Open with Ohara",
+    "splashImageUrl": "https://usdozf7pplhxfvrl.public.blob.vercel-storage.com/farcaster/splash_images/splash_image1.svg",
+    "splashBackgroundColor": "#ffffff",
+    "tags": [
+      "ohara",
+      "mini-app",
+      "base",
+      "farcaster"
+    ],
+    "primaryCategory": "entertainment",
+    "ogTitle": "Discord Task Manager",
+    "ogImageUrl": "https://usdozf7pplhxfvrl.public.blob.vercel-storage.com/thumbnail_dd397b07-c23b-47cc-b9be-8c561ae46b30-hd3Z4H3q1DwphLN4WYxLq2y9MLCQbG"
+  },
+  "baseBuilder": {
+    "allowedAddresses": [
+      ""
+    ]
+  }
+}
