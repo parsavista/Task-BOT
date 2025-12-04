@@ -1,19 +1,17 @@
 'use client';
 
 import { TaskCard } from './task-card';
-import type { Task } from '@/spacetime_module_bindings/task_type';
-import type { Reminder } from '@/spacetime_module_bindings/reminder_type';
+import type { Task } from '@/types/task';
 
 interface TaskListProps {
   tasks: Task[];
-  reminders: Record<string, Reminder[]>;
-  onDelete: (id: bigint) => void;
-  onToggleStatus: (id: bigint) => void;
+  onCompleteTask: (id: number) => void;
+  onDeleteTask: (id: number) => void;
 }
 
-export function TaskList({ tasks, reminders, onDelete, onToggleStatus }: TaskListProps): JSX.Element {
-  const activeTasks = tasks.filter((task) => task.status.tag === 'Active');
-  const completedTasks = tasks.filter((task) => task.status.tag === 'Completed');
+export function TaskList({ tasks, onCompleteTask, onDeleteTask }: TaskListProps): JSX.Element {
+  const activeTasks = tasks.filter((task) => task.status === 'active');
+  const completedTasks = tasks.filter((task) => task.status === 'completed');
 
   if (tasks.length === 0) {
     return (
@@ -33,11 +31,10 @@ export function TaskList({ tasks, reminders, onDelete, onToggleStatus }: TaskLis
           <div className="space-y-3">
             {activeTasks.map((task) => (
               <TaskCard
-                key={String(task.id)}
+                key={task.id}
                 task={task}
-                reminders={reminders[String(task.id)] || []}
-                onDelete={onDelete}
-                onToggleStatus={onToggleStatus}
+                onDelete={onDeleteTask}
+                onToggleStatus={onCompleteTask}
               />
             ))}
           </div>
@@ -50,11 +47,10 @@ export function TaskList({ tasks, reminders, onDelete, onToggleStatus }: TaskLis
           <div className="space-y-3">
             {completedTasks.map((task) => (
               <TaskCard
-                key={String(task.id)}
+                key={task.id}
                 task={task}
-                reminders={reminders[String(task.id)] || []}
-                onDelete={onDelete}
-                onToggleStatus={onToggleStatus}
+                onDelete={onDeleteTask}
+                onToggleStatus={onCompleteTask}
               />
             ))}
           </div>

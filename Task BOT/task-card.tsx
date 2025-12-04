@@ -6,25 +6,23 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Trash2, CheckCircle2, Circle, Clock, Bell } from 'lucide-react';
-import type { Task } from '@/spacetime_module_bindings/task_type';
-import type { Reminder } from '@/spacetime_module_bindings/reminder_type';
+import type { Task } from '@/types/task';
 
 interface TaskCardProps {
   task: Task;
-  reminders: Reminder[];
-  onDelete: (id: bigint) => void;
-  onToggleStatus: (id: bigint) => void;
+  onDelete: (id: number) => void;
+  onToggleStatus: (id: number) => void;
 }
 
-export function TaskCard({ task, reminders, onDelete, onToggleStatus }: TaskCardProps): JSX.Element {
+export function TaskCard({ task, onDelete, onToggleStatus }: TaskCardProps): JSX.Element {
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
     const updateTimeLeft = (): void => {
       const now = Date.now();
-      const deadline = Number(task.deadlineMs);
-      const createdAt = Number(task.createdAtMs);
+      const deadline = task.deadline;
+      const createdAt = task.createdAt;
       const total = deadline - createdAt;
       const remaining = deadline - now;
 
@@ -56,10 +54,10 @@ export function TaskCard({ task, reminders, onDelete, onToggleStatus }: TaskCard
     return () => clearInterval(interval);
   }, [task]);
 
-  const sentReminders = reminders.filter((r) => r.sent).length;
-  const totalReminders = reminders.length;
-  const isOverdue = Date.now() > Number(task.deadlineMs);
-  const isCompleted = task.status.tag === 'Completed';
+  const sentReminders = task.reminders.filter((r) => r.sent).length;
+  const totalReminders = task.reminders.length;
+  const isOverdue = Date.now() > task.deadline;
+  const isCompleted = task.status === 'completed';
 
   return (
     <Card className={`border-2 ${isCompleted ? 'border-green-200 bg-green-50' : isOverdue ? 'border-red-200 bg-red-50' : 'border-gray-200'}`}>
@@ -75,7 +73,7 @@ export function TaskCard({ task, reminders, onDelete, onToggleStatus }: TaskCard
           </div>
           <div className="flex gap-2 mr-2">
             <Button
-              onClick={() => onToggleStatus(task.id)}
+              onClick={() => onToggleStatus(Number(task.id))}
               variant="ghost"
               size="icon"
               className={isCompleted ? 'text-green-600' : 'text-gray-400'}
@@ -87,7 +85,7 @@ export function TaskCard({ task, reminders, onDelete, onToggleStatus }: TaskCard
               )}
             </Button>
             <Button
-              onClick={() => onDelete(task.id)}
+              onClick={() => onDelete(Number(task.id))}
               variant="ghost"
               size="icon"
               className="text-red-600 hover:text-red-700 hover:bg-red-50"
@@ -121,7 +119,7 @@ export function TaskCard({ task, reminders, onDelete, onToggleStatus }: TaskCard
         </div>
 
         <div className="text-xs text-gray-500 pt-1">
-          ددلاین: {new Date(Number(task.deadlineMs)).toLocaleString('fa-IR')}
+          ددلاین: {new Date(task.deadline).toLocaleString('fa-IR')}
         </div>
       </CardContent>
     </Card>
